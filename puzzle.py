@@ -4,6 +4,7 @@ empty tile will be represented as 0
 import random
 import copy
 import time
+import numpy as np
 
 movement = []
 
@@ -76,17 +77,18 @@ def main():
     not_solved = True
     puz = createPuzzle(row_number)
     print(puz)
-    #puz = [1,5,2,4,0,3,7,8,6]
+    #puz = [0,1,5,8,7,2,6,3,4]
     if solvable(puz):
         print("solvable")
         cost = cost_calc(puz, finished_puzzle)
         zero = zero_posi(puz)
-        temp_parent = node(0,10,[0 for x in range(tile_number)],None,0)
+        temp_parent = node(-1,10,[0 for x in range(tile_number)],None,0)
         origin_node = node(0,cost,puz,temp_parent,zero)
         cost_list = min_cost_list()
         cost_list.push_minheaplist(origin_node)
-        
+        #time.sleep(1) 
         while(not_solved):
+            print(len(cost_list.get_minheaplist()), "-", cost_list.get_minheaplist()[0].get_level())
             parent_node = cost_list.pop_minheaplist()
             p_p_puz = parent_node.get_parent().get_state()
             for v in range(4):
@@ -109,20 +111,25 @@ def main():
         
 
         #print(ans_node.get_state())
-        print_step(ans_node)
+        print_step(ans_node, row_number)
 
 
     else:
         print("unsolvable")
 
 
-def print_step(node):
+def print_step(node, side):
     status_list = []
     cur_node = node
+    npar = np.array(cur_node.get_state())
+    print(npar.reshape(side,side))
+    print(node.get_level())
     while(True):
-        if node.get_level() != 0:
-            print("hello")
+        if cur_node.get_level() > 0:
             cur_node = cur_node.get_parent()
+            npar = np.array(cur_node.get_state())
+            print(npar.reshape(side,side))
+            print(cur_node.get_level())
         else:
             break
 
