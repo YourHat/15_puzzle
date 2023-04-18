@@ -77,7 +77,7 @@ def main():
     not_solved = True
     puz = createPuzzle(row_number)
     print(puz)
-    #puz = [0,1,5,8,7,2,6,3,4]
+    #puz = [7,0,4,5,6,3,2,1,8] #17 steps
     if solvable(puz):
         print("solvable")
         cost = cost_calc(puz, finished_puzzle)
